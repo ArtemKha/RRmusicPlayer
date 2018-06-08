@@ -1,0 +1,17 @@
+$blue: #1d2d3a;
+$background_color: darken($blue, 10);
+
+body {
+  align-items: center;
+  background: $background_color;
+  display: flex;
+  font-family: 'Roboto', sans-serif;
+  color: white;
+  height: 100%;
+  justify-content: center;
+}
+
+.app_container {
+  background-color: $background_color;
+  height: 100%;
+}

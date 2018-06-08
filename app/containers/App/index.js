@@ -16,10 +16,11 @@ import { Switch, Route } from 'react-router-dom';
 
 import HomePage from 'containers/HomePage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
+import './App.scss';
 
 export default function App() {
   return (
-    <div>
+    <div className="app_container">
       <Switch>
         <Route exact path="/" component={HomePage} />
         <Route component={NotFoundPage} />
