@@ -14,12 +14,13 @@ import Player from 'containers/Player';
 import List from 'containers/List';
 
 export default class HomePage extends React.PureComponent {
-  // eslint-disable-line react/prefer-stateless-function
   render() {
+    const { changeTrack, track } = this.props;
+    const list = this.props.list.toJS();
     return (
       <div>
-        <Player />
-        <List />
+        <Player changeTrack={changeTrack} list={list} trackIndex={track} />
+        <List changeTrack={changeTrack} list={list} track={track} />
       </div>
     );
   }
