@@ -10,8 +10,8 @@
  */
 
 import React from 'react';
-import Player from 'containers/Player';
-import List from 'containers/List';
+import Player from 'components/Player';
+import List from 'components/List';
 
 export default class HomePage extends React.PureComponent {
   render() {
