@@ -9,7 +9,7 @@ import {
 import './Player.scss';
 
 export default class Player extends Component {
-  state = { playStatus: 'play', currentTime: 0 };
+  state = { playStatus: 'play', currentTime: 0, volume: 75 };
 
   static defaultProps = {
     track: {
@@ -20,6 +20,11 @@ export default class Player extends Component {
       duration: 192,
       source: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/557257/wwy.mp3',
     },
+  };
+
+  handleVolume = (value) => {
+    this.setState({ volume: value });
+    this.audio.volume = value ? value / 100 : 0;
   };
 
   // changeSource
@@ -43,7 +48,7 @@ export default class Player extends Component {
 
   togglePlay = () => {
     let status = this.state.playStatus;
-    const audio = document.getElementById('audio');
+    const audio = this.audio;
     if (status === 'play') {
       status = 'pause';
       audio.play();
@@ -65,6 +70,8 @@ export default class Player extends Component {
   };
 
   render() {
+    const { volume } = this.state;
+
     return (
       <div className="player_container">
         <div className="Player">
@@ -73,7 +80,7 @@ export default class Player extends Component {
           </div>
           <TrackInformation track={this.props.track} />
           <Scrubber />
-          <Volume />
+          <Volume volume={volume} handleVolume={this.handleVolume} />
           <Controls
             isPlaying={this.state.playStatus}
             onClick={this.togglePlay}
@@ -82,7 +89,12 @@ export default class Player extends Component {
             duration={this.props.track.duration}
             currentTime={this.state.currentTime}
           />
-          <audio id="audio">
+          <audio
+            id="audio"
+            ref={(c) => {
+              this.audio = c;
+            }}
+          >
             <source src={this.props.track.source} />
           </audio>
         </div>

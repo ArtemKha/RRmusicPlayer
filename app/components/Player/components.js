@@ -1,4 +1,6 @@
 import React from 'react';
+import Slider from 'react-rangeslider';
+import 'react-rangeslider/lib/index.css';
 
 export const TrackInformation = (props) => (
   <div className="TrackInformation">
@@ -16,14 +18,32 @@ export const Scrubber = () => (
   </div>
 );
 
-export const Volume = () => (
-  <div className="volume">
-    <i className="volume-mute fa fa-volume-up" />
-    <span className="volume-level">
-      <em style={{ width: '75%' }} />
-    </span>
-  </div>
-);
+export const Volume = ({ volume, handleVolume }) => {
+  const muteStyle = volume < 1 ? 'fa-volume-off' : 'fa-volume-up';
+  const muteValue = volume < 1 ? 50 : 0;
+
+  return (
+    <div className="volume">
+      <i
+        className={`volume-mute fa ${muteStyle}`}
+        onClick={() => handleVolume(muteValue)}
+      />
+      <span className="volume-level">
+        <em style={{ width: `${volume}%` }} />
+      </span>
+      <div className="volume-slider">
+        <Slider
+          min={0}
+          max={100}
+          tooltip={false}
+          value={volume}
+          orientation="vertical"
+          onChange={handleVolume}
+        />
+      </div>
+    </div>
+  );
+};
 
 export const Controls = (props) => {
   let classNames;
