@@ -12,13 +12,14 @@
 import React from 'react';
 import Player from 'components/Player';
 import List from 'components/List';
+import './HomePage.scss';
 
 export default class HomePage extends React.PureComponent {
   render() {
     const { changeTrack, track } = this.props;
     const list = this.props.list.toJS();
     return (
-      <div>
+      <div className="homeContainer">
         <Player changeTrack={changeTrack} list={list} trackIndex={track} />
         <List changeTrack={changeTrack} list={list} track={track} />
       </div>

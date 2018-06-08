@@ -15,7 +15,8 @@ export default class List extends PureComponent {
 
   render() {
     return (
-      <div className="list_container" id="plwrap">
+      // scrollable div, full width app
+      <div className="listContainer">
         <ul id="plList">
           {this.props.list.map((item, i) => (
             <li key={item.name}>
@@ -27,6 +28,9 @@ export default class List extends PureComponent {
             </li>
           ))}
         </ul>
+        <div className="footer">
+          <small>RRPlayer ♪ AK ♪ 2018</small>
+        </div>
       </div>
     );
   }

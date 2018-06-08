@@ -1,27 +1,41 @@
 $color_1: #fff;
 $background_color_2: rgba(0, 0, 0, 0.1);
 
-.list_container {
+.listContainer {
   position: relative;
   margin: 0 auto;
-  max-width: 800px;
   width: 100%;
+  overflow-y: auto;
+
+  .footer {
+    margin-top: 10px;
+    text-align: center;
+    opacity: 0.7;
+  }
 }
 
 #plList {
+  max-width: 800px;
+  margin: 0 auto;
+
   li {
     cursor: pointer;
     display: block;
     margin: 0;
     padding: 21px 0;
+    opacity: 0.75;
+
     &:hover {
+      opacity: 1;
       background-color: $background_color_2;
     }
   }
 }
+
 .plItem {
   position: relative;
 }
+
 .plTitle {
   left: 50px;
   overflow: hidden;
@@ -31,10 +45,12 @@ $background_color_2: rgba(0, 0, 0, 0.1);
   top: 0;
   white-space: nowrap;
 }
+
 .plNum {
   padding-left: 21px;
   width: 25px;
 }
+
 .plLength {
   padding-left: 21px;
   position: absolute;

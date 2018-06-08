@@ -69,7 +69,7 @@ export default class Player extends Component {
       <div className="player_container">
         <div className="Player">
           <div className="Header">
-            <div className="Title">Player</div>
+            <div className="Title">now playing</div>
           </div>
           <TrackInformation track={this.props.track} />
           <Scrubber />
