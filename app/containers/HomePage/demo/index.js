@@ -1,10 +1,14 @@
 const formatData = (data) => {
   const list = data.map((item) => {
+    const newItem = { ...item };
+
+    // save duration as string for list
+    newItem.durationString = item.duration;
+
     const duration = item.duration.split(':'); // split it at the colons
 
     // parse seconds (minutes are worth 60 seconds)
     const minutes = parseInt(duration[0], 10) * 60;
-    const newItem = { ...item };
     newItem.duration = minutes + parseInt(duration[1], 10);
 
     // source change

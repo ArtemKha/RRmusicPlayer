@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   Controls,
   Scrubber,
@@ -18,6 +19,14 @@ export default class Player extends Component {
       album: "Summer's Gone",
       year: 2012,
       duration: 192,
+      source: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/557257/wwy.mp3',
+    },
+  };
+
+  static propTypes = {
+    track: {
+      name: PropTypes.string.isRequired,
+      duration: PropTypes.number.isRequired,
       source: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/557257/wwy.mp3',
     },
   };

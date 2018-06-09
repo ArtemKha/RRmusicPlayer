@@ -7,7 +7,7 @@ export default class List extends PureComponent {
     list: PropTypes.arrayOf(
       PropTypes.shape({
         name: PropTypes.string.isRequired,
-        duration: PropTypes.string.isRequired,
+        durationString: PropTypes.string.isRequired,
       }).isRequired
     ).isRequired,
     changeTrack: PropTypes.func.isRequired,
@@ -15,7 +15,6 @@ export default class List extends PureComponent {
 
   render() {
     return (
-      // scrollable div, full width app
       <div className="listContainer">
         <ul id="plList">
           {this.props.list.map((item, i) => (
@@ -23,7 +22,7 @@ export default class List extends PureComponent {
               <div className="plItem">
                 <span className="plNum">{i}.</span>
                 <span className="plTitle">{item.name}</span>
-                <span className="plLength">{item.duration}</span>
+                <span className="plLength">{item.durationString}</span>
               </div>
             </li>
           ))}

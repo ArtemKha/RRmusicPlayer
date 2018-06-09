@@ -17,7 +17,7 @@ $blue: #1d2d3a;
   overflow: hidden;
   box-shadow: 0 5px 10px -5px rgba($black, 1);
   position: relative;
-  padding-top: 250px;
+  padding-top: 180px;
 
   .TrackInformation {
     text-align: center;
@@ -25,21 +25,14 @@ $blue: #1d2d3a;
     position: absolute;
     margin: 0 auto;
     width: 100%;
+    padding: 0 35px;
 
     .Name {
       font-size: 24px;
       font-weight: 300;
-    }
-
-    .Artist {
-      font-size: 16px;
-      margin-bottom: 5px;
-      font-weight: 500;
-    }
-
-    .Album {
-      font-size: 12px;
-      opacity: 0.5;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
   }
 
