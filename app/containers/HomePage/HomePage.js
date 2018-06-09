@@ -28,7 +28,7 @@ export default class HomePage extends React.PureComponent {
           index={track}
           track={currentTrack}
         />
-        <List changeTrack={changeTrack} list={list} trackIndex={track} />
+        <List changeTrack={changeTrack} list={list} index={track} />
       </div>
     );
   }

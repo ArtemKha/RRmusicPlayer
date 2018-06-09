@@ -11,22 +11,32 @@ export default class List extends PureComponent {
       }).isRequired
     ).isRequired,
     changeTrack: PropTypes.func.isRequired,
+    index: PropTypes.number.isRequired,
   };
 
   render() {
+    const { changeTrack, index } = this.props;
+
+    const renderPlItem = (item, i) => {
+      const className = i === index ? 'activeTrack' : '';
+      return (
+        <li
+          key={item.name}
+          className={className}
+          onClick={() => changeTrack(i)}
+        >
+          <div className="plItem">
+            <span className="plNum">{i + 1}.</span>
+            <span className="plTitle">{item.name}</span>
+            <span className="plLength">{item.durationString}</span>
+          </div>
+        </li>
+      );
+    };
+
     return (
       <div className="listContainer">
-        <ul id="plList">
-          {this.props.list.map((item, i) => (
-            <li key={item.name}>
-              <div className="plItem">
-                <span className="plNum">{i}.</span>
-                <span className="plTitle">{item.name}</span>
-                <span className="plLength">{item.durationString}</span>
-              </div>
-            </li>
-          ))}
-        </ul>
+        <ul className="plList">{this.props.list.map(renderPlItem)}</ul>
         <div className="footer">
           <small>RRPlayer ♪ AK ♪ 2018</small>
         </div>

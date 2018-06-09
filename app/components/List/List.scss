@@ -1,5 +1,5 @@
 $color_1: #fff;
-$background_color_2: rgba(0, 0, 0, 0.1);
+$background_color_2: rgba(0, 0, 0, 0.342);
 
 .listContainer {
   position: relative;
@@ -14,9 +14,14 @@ $background_color_2: rgba(0, 0, 0, 0.1);
   }
 }
 
-#plList {
+.plList {
   max-width: 800px;
   margin: 0 auto;
+  padding: 0;
+
+  .activeTrack {
+    background-color: #26303c;
+  }
 
   li {
     cursor: pointer;
@@ -49,6 +54,7 @@ $background_color_2: rgba(0, 0, 0, 0.1);
 .plNum {
   padding-left: 21px;
   width: 25px;
+  opacity: 0.3;
 }
 
 .plLength {
