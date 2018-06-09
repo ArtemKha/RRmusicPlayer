@@ -1,5 +1,6 @@
 import React from 'react';
 import Slider from 'react-rangeslider';
+import PropTypes from 'prop-types';
 import 'react-rangeslider/lib/index.css';
 
 export const TrackInformation = (props) => (
@@ -8,11 +9,22 @@ export const TrackInformation = (props) => (
   </div>
 );
 
+TrackInformation.propTypes = {
+  track: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+  }).isRequired,
+};
+
 export const Scrubber = ({ onSeek, scrubber }) => (
   <div onClick={onSeek} className="scrubber">
     <div style={{ width: `${scrubber}%` }} className="scrubber-progress" />
   </div>
 );
+
+Scrubber.propTypes = {
+  onSeek: PropTypes.func.isRequired,
+  scrubber: PropTypes.number.isRequired,
+};
 
 export const Volume = ({ volume, handleVolume }) => {
   const muteStyle = volume < 1 ? 'fa-volume-off' : 'fa-volume-up';
@@ -41,6 +53,11 @@ export const Volume = ({ volume, handleVolume }) => {
   );
 };
 
+Volume.propTypes = {
+  handleVolume: PropTypes.func.isRequired,
+  volume: PropTypes.number.isRequired,
+};
+
 export const Controls = (props) => {
   let classNames;
   if (props.isPlaying == 'pause') {
@@ -58,7 +75,7 @@ export const Controls = (props) => {
         >
           <i className="fa fa-fw fa-backward" />
         </div>
-        <div onClick={props.onClick} className="button button--play">
+        <div onClick={props.handlePlayStatus} className="button button--play">
           <i className={classNames} />
         </div>
         <div
@@ -70,6 +87,12 @@ export const Controls = (props) => {
       </div>
     </div>
   );
+};
+
+Controls.propTypes = {
+  changeTrack: PropTypes.func.isRequired,
+  handlePlayStatus: PropTypes.func.isRequired,
+  isPlaying: PropTypes.string.isRequired,
 };
 
 export const Timestamps = (props) => {
@@ -89,4 +112,9 @@ export const Timestamps = (props) => {
       <div className="time time--total">{convertTime(props.duration)}</div>
     </div>
   );
+};
+
+Timestamps.propTypes = {
+  duration: PropTypes.number.isRequired,
+  currentTime: PropTypes.number.isRequired,
 };

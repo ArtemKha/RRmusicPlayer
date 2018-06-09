@@ -162,7 +162,7 @@ export default class Player extends Component {
           <Volume volume={volume} handleVolume={this.handleVolume} />
           <Controls
             isPlaying={this.props.playStatus}
-            onClick={this.togglePlay}
+            handlePlayStatus={this.togglePlay}
             changeTrack={this.changeTrack}
           />
           <Timestamps
