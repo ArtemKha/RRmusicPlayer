@@ -58,8 +58,7 @@ $white: #fff;
     cursor: pointer;
 
     &:hover {
-      outline: $playerSecondary;
-      border-bottom: 2px dotted $playerSecondary;
+      // outline: $playerSecondary;
     }
 
     .scrubber-progress {
