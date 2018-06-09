@@ -22,6 +22,26 @@ export default class Player extends Component {
     },
   };
 
+  componentDidMount = () => {
+    const audio = this.audio;
+    const { duration } = this.props.track;
+    const { updateScrubber, updateTime } = this;
+
+    this.timerUpdater = setInterval(() => {
+      if (audio) {
+        const currentTime = audio.currentTime;
+        // Calculate percent of song
+        const percent = `${(currentTime / duration) * 100}%`;
+        updateScrubber(percent);
+        updateTime(currentTime);
+      }
+    }, 150);
+  };
+
+  componentWillUnmount = () => {
+    clearInterval(this.timerUpdater);
+  };
+
   handleVolume = (value) => {
     this.setState({ volume: value });
     this.audio.volume = value ? value / 100 : 0;
@@ -46,22 +66,21 @@ export default class Player extends Component {
     innerScrubber.style.width = percent;
   };
 
+  onSeek = (e) => {
+    const { duration } = this.props.track;
+    const width = e.target.getBoundingClientRect().width;
+    const percent = e.clientX / width;
+    const roundedPercent = Math.round(percent * 100) / 100;
+    const seekTo = Math.floor(duration * roundedPercent);
+    this.audio.currentTime = seekTo;
+  };
+
   togglePlay = () => {
     let status = this.state.playStatus;
     const audio = this.audio;
     if (status === 'play') {
       status = 'pause';
       audio.play();
-      const that = this;
-      setInterval(() => {
-        const currentTime = audio.currentTime;
-        const duration = that.props.track.duration;
-
-        // Calculate percent of song
-        const percent = `${(currentTime / duration) * 100}%`;
-        that.updateScrubber(percent);
-        that.updateTime(currentTime);
-      }, 100);
     } else {
       status = 'play';
       audio.pause();
@@ -79,7 +98,7 @@ export default class Player extends Component {
             <div className="Title">now playing</div>
           </div>
           <TrackInformation track={this.props.track} />
-          <Scrubber />
+          <Scrubber onSeek={this.onSeek} />
           <Volume volume={volume} handleVolume={this.handleVolume} />
           <Controls
             isPlaying={this.state.playStatus}

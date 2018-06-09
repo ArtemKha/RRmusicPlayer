@@ -12,8 +12,8 @@ export const TrackInformation = (props) => (
   </div>
 );
 
-export const Scrubber = () => (
-  <div className="scrubber">
+export const Scrubber = ({ onSeek }) => (
+  <div onClick={onSeek} className="scrubber">
     <div className="scrubber-progress" />
   </div>
 );
