@@ -18,10 +18,12 @@ export default class HomePage extends React.PureComponent {
   render() {
     const { changeTrack, track } = this.props;
     const list = this.props.list.toJS();
+    const currentTrack = list[track];
+
     return (
       <div className="homeContainer">
-        <Player changeTrack={changeTrack} list={list} trackIndex={track} />
-        <List changeTrack={changeTrack} list={list} track={track} />
+        <Player changeTrack={changeTrack} list={list} track={currentTrack} />
+        <List changeTrack={changeTrack} list={list} trackIndex={track} />
       </div>
     );
   }

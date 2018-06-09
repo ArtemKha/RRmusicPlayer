@@ -1,4 +1,22 @@
-export default [
+const formatData = (data) => {
+  const list = data.map((item) => {
+    const duration = item.duration.split(':'); // split it at the colons
+
+    // parse seconds (minutes are worth 60 seconds)
+    const minutes = parseInt(duration[0], 10) * 60;
+    const newItem = { ...item };
+    newItem.duration = minutes + parseInt(duration[1], 10);
+
+    // source change
+    const source = `https://archive.org/download/mythium/${item.file}.mp3`;
+    newItem.source = source;
+    return newItem;
+  });
+
+  return list;
+};
+
+const data = [
   {
     track: 1,
     name: "All This Is - Joe L.'s Studio",
@@ -66,3 +84,5 @@ export default [
     file: 'PNY04-05_M',
   },
 ];
+
+export default formatData(data);
