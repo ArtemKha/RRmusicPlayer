@@ -3,14 +3,14 @@ import Slider from 'react-rangeslider';
 import 'react-rangeslider/lib/index.css';
 
 export const TrackInformation = (props) => (
-  <div className="TrackInformation">
-    <div className="Name">{props.track.name}</div>
+  <div className="trackInformation">
+    <div className="name">{props.track.name}</div>
   </div>
 );
 
-export const Scrubber = ({ onSeek }) => (
+export const Scrubber = ({ onSeek, scrubber }) => (
   <div onClick={onSeek} className="scrubber">
-    <div className="scrubber-progress" />
+    <div style={{ width: `${scrubber}%` }} className="scrubber-progress" />
   </div>
 );
 
@@ -50,15 +50,21 @@ export const Controls = (props) => {
   }
 
   return (
-    <div className="Controls">
+    <div className="controls">
       <div className="controlBox">
-        <div onClick={props.onClick} className="button button--previous">
+        <div
+          onClick={() => props.changeTrack('back')}
+          className="button button--previous"
+        >
           <i className="fa fa-fw fa-backward" />
         </div>
         <div onClick={props.onClick} className="button button--play">
           <i className={classNames} />
         </div>
-        <div onClick={props.onClick} className="button button--next">
+        <div
+          onClick={() => props.changeTrack('forward')}
+          className="button button--next"
+        >
           <i className="fa fa-fw fa-forward" />
         </div>
       </div>
@@ -78,9 +84,9 @@ export const Timestamps = (props) => {
   };
 
   return (
-    <div className="Timestamps">
-      <div className="Time Time--current">{convertTime(props.currentTime)}</div>
-      <div className="Time Time--total">{convertTime(props.duration)}</div>
+    <div className="timestamps">
+      <div className="time time--current">{convertTime(props.currentTime)}</div>
+      <div className="time time--total">{convertTime(props.duration)}</div>
     </div>
   );
 };

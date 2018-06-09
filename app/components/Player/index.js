@@ -10,42 +10,59 @@ import {
 import './Player.scss';
 
 export default class Player extends Component {
-  state = { playStatus: 'play', currentTime: 0, volume: 75 };
+  constructor(props) {
+    super(props);
+    this.state = {
+      playStatus: 'play',
+      currentTime: 0,
+      volume: 75,
+      scrubber: 0,
+      track: props.track,
+    };
+  }
 
   static defaultProps = {
     track: {
-      name: 'We Were Young',
-      artist: 'Odesza',
-      album: "Summer's Gone",
-      year: 2012,
+      name: 'Odesza - We Were Young',
       duration: 192,
       source: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/557257/wwy.mp3',
     },
   };
 
   static propTypes = {
-    track: {
+    track: PropTypes.shape({
       name: PropTypes.string.isRequired,
       duration: PropTypes.number.isRequired,
-      source: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/557257/wwy.mp3',
-    },
+      index: PropTypes.number.isRequired,
+      count: PropTypes.number.isRequired,
+      source: PropTypes.string.isRequired,
+    }).isRequired,
   };
 
   componentDidMount = () => {
-    const audio = this.audio;
-    const { duration } = this.props.track;
-    const { updateScrubber, updateTime } = this;
-
-    this.timerUpdater = setInterval(() => {
-      if (audio) {
-        const currentTime = audio.currentTime;
-        // Calculate percent of song
-        const percent = `${(currentTime / duration) * 100}%`;
-        updateScrubber(percent);
-        updateTime(currentTime);
-      }
-    }, 150);
+    this.startTimer();
   };
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.track !== nextProps.track) {
+      const { track } = nextProps;
+
+      this.source.src = track.source;
+      clearInterval(this.timerUpdater);
+      this.audio.currentTime = 0;
+      this.startTimer();
+
+      this.audio.load();
+      this.audio.play();
+      this.setState({ track, playStatus: 'pause', scrubber: 0 });
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.currentTime === this.props.track.duration) {
+      this.changeTrack('forward');
+    }
+  }
 
   componentWillUnmount = () => {
     clearInterval(this.timerUpdater);
@@ -56,12 +73,22 @@ export default class Player extends Component {
     this.audio.volume = value ? value / 100 : 0;
   };
 
-  // changeSource
-  changeSource = () => {
-    const { trackIndex, list } = this.props;
-    const { file } = list[trackIndex];
-    const source = `https://archive.org/download/mythium/${file}.mp3`;
-    this.setState({ source });
+  changeTrack = (direction) => {
+    const { changeTrack, count, index } = this.props;
+    let newIndex;
+
+    if (!count) {
+      newIndex = 0;
+    } else if (direction === 'forward') {
+      const nextIndex = index + 1;
+      newIndex = nextIndex < count ? nextIndex : 0;
+    } else {
+      const nextIndex = index - 1;
+      const lastIndex = count - 1;
+      newIndex = nextIndex >= 0 ? nextIndex : lastIndex;
+    }
+
+    changeTrack(newIndex);
   };
 
   updateTime = (timestamp) => {
@@ -71,17 +98,33 @@ export default class Player extends Component {
 
   updateScrubber = (percent) => {
     // Set scrubber width
-    const innerScrubber = document.querySelector('.scrubber-progress');
-    innerScrubber.style.width = percent;
+    this.setState({ scrubber: percent });
   };
 
   onSeek = (e) => {
-    const { duration } = this.props.track;
+    const { duration } = this.state.track;
     const width = e.target.getBoundingClientRect().width;
     const percent = e.clientX / width;
     const roundedPercent = Math.round(percent * 100) / 100;
     const seekTo = Math.floor(duration * roundedPercent);
     this.audio.currentTime = seekTo;
+  };
+
+  startTimer = () => {
+    const audio = this.audio;
+    const { updateScrubber, updateTime } = this;
+
+    this.timerUpdater = setInterval(() => {
+      const { duration } = this.state.track;
+      if (audio) {
+        const currentTime = audio.currentTime;
+
+        // Calculate percent of song
+        const percent = (currentTime / duration) * 100;
+        updateScrubber(percent);
+        updateTime(currentTime);
+      }
+    }, 150);
   };
 
   togglePlay = () => {
@@ -98,23 +141,24 @@ export default class Player extends Component {
   };
 
   render() {
-    const { volume } = this.state;
+    const { volume, scrubber } = this.state;
 
     return (
       <div className="player_container">
-        <div className="Player">
+        <div className="player">
           <div className="Header">
-            <div className="Title">now playing</div>
+            <div className="title">now playing</div>
           </div>
-          <TrackInformation track={this.props.track} />
-          <Scrubber onSeek={this.onSeek} />
+          <TrackInformation track={this.state.track} />
+          <Scrubber onSeek={this.onSeek} scrubber={scrubber} />
           <Volume volume={volume} handleVolume={this.handleVolume} />
           <Controls
             isPlaying={this.state.playStatus}
             onClick={this.togglePlay}
+            changeTrack={this.changeTrack}
           />
           <Timestamps
-            duration={this.props.track.duration}
+            duration={this.state.track.duration}
             currentTime={this.state.currentTime}
           />
           <audio
@@ -123,7 +167,12 @@ export default class Player extends Component {
               this.audio = c;
             }}
           >
-            <source src={this.props.track.source} />
+            <source
+              ref={(c) => {
+                this.source = c;
+              }}
+              src={this.state.track.source}
+            />
           </audio>
         </div>
       </div>

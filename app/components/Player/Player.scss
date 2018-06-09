@@ -11,7 +11,7 @@ $blue: #1d2d3a;
   );
 }
 
-.Player {
+.player {
   background: darken($blue, 3);
   border-radius: 5px;
   overflow: hidden;
@@ -19,7 +19,7 @@ $blue: #1d2d3a;
   position: relative;
   padding-top: 180px;
 
-  .TrackInformation {
+  .trackInformation {
     text-align: center;
     top: 40px;
     position: absolute;
@@ -27,7 +27,7 @@ $blue: #1d2d3a;
     width: 100%;
     padding: 0 35px;
 
-    .Name {
+    .name {
       font-size: 24px;
       font-weight: 300;
       overflow: hidden;
@@ -36,7 +36,7 @@ $blue: #1d2d3a;
     }
   }
 
-  .Title {
+  .title {
     font-size: 12px;
     text-transform: uppercase;
     letter-spacing: 0.1em;
@@ -74,7 +74,7 @@ $blue: #1d2d3a;
     }
   }
 
-  .Timestamps {
+  .timestamps {
     display: flex;
     justify-content: space-between;
     box-sizing: border-box;
@@ -86,7 +86,7 @@ $blue: #1d2d3a;
     z-index: 2;
     width: 100%;
 
-    .Time {
+    .time {
       font-size: 12px;
     }
   }
@@ -173,7 +173,7 @@ $blue: #1d2d3a;
     }
   }
 
-  .Controls {
+  .controls {
     position: absolute;
     bottom: 8%;
     pointer-events: none;
