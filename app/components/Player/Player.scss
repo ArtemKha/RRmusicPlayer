@@ -1,7 +1,7 @@
-$black: #121212;
+$shadowColor: #121212;
+$playerSecondary: #ff4700;
+$bgColor: #1d2d3a;
 $white: #fff;
-$orange: #ff4700;
-$blue: #1d2d3a;
 
 @mixin generate-gradient($color) {
   background: linear-gradient(
@@ -12,9 +12,9 @@ $blue: #1d2d3a;
 }
 
 .player {
-  background: darken($blue, 3);
+  background: darken($bgColor, 3);
   overflow: hidden;
-  box-shadow: 0 5px 10px -5px rgba($black, 1);
+  box-shadow: 0 5px 10px -5px rgba($shadowColor, 1);
   position: relative;
   padding-top: 180px;
 
@@ -58,12 +58,12 @@ $blue: #1d2d3a;
     cursor: pointer;
 
     &:hover {
-      outline: $orange;
-      border-bottom: 2px dotted $orange;
+      outline: $playerSecondary;
+      border-bottom: 2px dotted $playerSecondary;
     }
 
     .scrubber-progress {
-      @include generate-gradient($orange);
+      @include generate-gradient($playerSecondary);
       height: 100%;
       width: 0%;
       transition: width 0.25s ease;
@@ -126,7 +126,7 @@ $blue: #1d2d3a;
     }
 
     .rangeslider__fill {
-      background-color: $orange;
+      background-color: $playerSecondary;
       opacity: 0.5;
       height: 80px;
       width: 3px;
@@ -198,7 +198,7 @@ $blue: #1d2d3a;
       align-items: center;
       justify-content: center;
       border-radius: 75px;
-      box-shadow: 0 5px 10px 0px rgba($black, 0.125);
+      box-shadow: 0 5px 10px 0px rgba($shadowColor, 0.125);
       pointer-events: all;
 
       &:active {
@@ -209,7 +209,7 @@ $blue: #1d2d3a;
         }
 
         .fa {
-          color: $orange;
+          color: $playerSecondary;
           opacity: 1;
         }
       }

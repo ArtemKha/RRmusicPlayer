@@ -20,7 +20,7 @@ import './App.scss';
 
 export default function App() {
   return (
-    <div className="app_container">
+    <div className="appContainer">
       <Switch>
         <Route exact path="/" component={HomePage} />
         <Route component={NotFoundPage} />
