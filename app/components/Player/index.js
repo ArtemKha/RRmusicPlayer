@@ -13,7 +13,6 @@ export default class Player extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      playStatus: 'play',
       currentTime: 0,
       volume: 75,
       scrubber: 0,
@@ -30,11 +29,13 @@ export default class Player extends Component {
   };
 
   static propTypes = {
+    setPlayStatus: PropTypes.func.isRequired,
+    playStatus: PropTypes.string.isRequired,
+    index: PropTypes.number.isRequired,
+    count: PropTypes.number.isRequired,
     track: PropTypes.shape({
       name: PropTypes.string.isRequired,
       duration: PropTypes.number.isRequired,
-      index: PropTypes.number.isRequired,
-      count: PropTypes.number.isRequired,
       source: PropTypes.string.isRequired,
     }).isRequired,
   };
@@ -44,8 +45,8 @@ export default class Player extends Component {
   };
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.track !== nextProps.track) {
-      const { track } = nextProps;
+    if (this.props.track.name !== nextProps.track.name) {
+      const { track, playStatus } = nextProps;
 
       this.source.src = track.source;
       clearInterval(this.timerUpdater);
@@ -54,7 +55,12 @@ export default class Player extends Component {
 
       this.audio.load();
       this.audio.play();
-      this.setState({ track, playStatus: 'pause', scrubber: 0 });
+      if (playStatus !== 'pause') this.props.setPlayStatus('pause');
+      this.setState({ track, scrubber: 0 });
+    }
+
+    if (this.props.playStatus !== nextProps.playStatus) {
+      this.togglePlay();
     }
   }
 
@@ -128,16 +134,18 @@ export default class Player extends Component {
   };
 
   togglePlay = () => {
-    let status = this.state.playStatus;
-    const audio = this.audio;
-    if (status === 'play') {
+    const { playStatus } = this.props;
+    let status;
+
+    if (playStatus === 'play') {
       status = 'pause';
-      audio.play();
+      this.audio.play();
     } else {
       status = 'play';
-      audio.pause();
+      this.audio.pause();
     }
-    this.setState({ playStatus: status });
+
+    this.props.setPlayStatus(status);
   };
 
   render() {
@@ -153,7 +161,7 @@ export default class Player extends Component {
           <Scrubber onSeek={this.onSeek} scrubber={scrubber} />
           <Volume volume={volume} handleVolume={this.handleVolume} />
           <Controls
-            isPlaying={this.state.playStatus}
+            isPlaying={this.props.playStatus}
             onClick={this.togglePlay}
             changeTrack={this.changeTrack}
           />

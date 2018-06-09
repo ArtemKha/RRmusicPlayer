@@ -1,23 +1,22 @@
-/*
- * HomePage
- *
- * This is the first thing users see of our App, at the '/' route
- *
- * NOTE: while this component should technically be a stateless functional
- * component (SFC), hot reloading does not currently support SFCs. If hot
- * reloading is not a necessity for you then you can refactor it and remove
- * the linting exception.
- */
-
-import React from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Player from 'components/Player';
 import List from 'components/List';
 import './HomePage.scss';
 
-export default class HomePage extends React.PureComponent {
+export default class HomePage extends Component {
+  static propTypes = {
+    changeTrack: PropTypes.func.isRequired,
+    setPlayStatus: PropTypes.func.isRequired,
+    playStatus: PropTypes.string.isRequired,
+    track: PropTypes.number.isRequired,
+    list: PropTypes.object.isRequired,
+  };
+
   render() {
-    const { changeTrack, track } = this.props;
+    const { changeTrack, track, setPlayStatus } = this.props;
     const list = this.props.list.toJS();
+    const playStatus = this.props.playStatus;
     const currentTrack = list[track];
 
     return (
@@ -27,8 +26,16 @@ export default class HomePage extends React.PureComponent {
           count={list.length}
           index={track}
           track={currentTrack}
+          setPlayStatus={setPlayStatus}
+          playStatus={playStatus}
         />
-        <List changeTrack={changeTrack} list={list} index={track} />
+        <List
+          changeTrack={changeTrack}
+          list={list}
+          index={track}
+          setPlayStatus={setPlayStatus}
+          playStatus={playStatus}
+        />
       </div>
     );
   }

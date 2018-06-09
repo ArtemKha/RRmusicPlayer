@@ -11,11 +11,24 @@ export default class List extends PureComponent {
       }).isRequired
     ).isRequired,
     changeTrack: PropTypes.func.isRequired,
+    setPlayStatus: PropTypes.func.isRequired,
+    playStatus: PropTypes.string.isRequired,
     index: PropTypes.number.isRequired,
   };
 
+  handleTrackClick = (i) => {
+    const { setPlayStatus, playStatus, changeTrack, index } = this.props;
+    changeTrack(i);
+
+    // check if track active
+    if (index === i) {
+      const nextStatus = playStatus === 'play' ? 'pause' : 'play';
+      setPlayStatus(nextStatus);
+    }
+  };
+
   render() {
-    const { changeTrack, index } = this.props;
+    const { index } = this.props;
 
     const renderPlItem = (item, i) => {
       const className = i === index ? 'activeTrack' : '';
@@ -23,7 +36,7 @@ export default class List extends PureComponent {
         <li
           key={item.name}
           className={className}
-          onClick={() => changeTrack(i)}
+          onClick={() => this.handleTrackClick(i)}
         >
           <div className="plItem">
             <span className="plNum">{i + 1}.</span>
