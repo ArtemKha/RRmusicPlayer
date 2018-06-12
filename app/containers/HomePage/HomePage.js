@@ -36,6 +36,9 @@ export default class HomePage extends Component {
           setPlayStatus={setPlayStatus}
           playStatus={playStatus}
         />
+        <div className="footer">
+          <small className="footerText">RRPlayer ♪ AK ♪ 2018</small>
+        </div>
       </div>
     );
   }

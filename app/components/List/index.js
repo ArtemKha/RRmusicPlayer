@@ -1,8 +1,10 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import './List.scss';
 
-export default class List extends PureComponent {
+export default class List extends Component {
+  state = { search: '' };
+
   static propTypes = {
     list: PropTypes.arrayOf(
       PropTypes.shape({
@@ -27,8 +29,36 @@ export default class List extends PureComponent {
     }
   };
 
+  getListBySearch = () => {
+    const { search } = this.state;
+    const { list } = this.props;
+
+    if (search && search.trim().length > 2) {
+      return list.filter((item) =>
+        item.name.toLowerCase().includes(search.toLowerCase())
+      );
+    }
+
+    return list;
+  };
+
+  clearSearch = () => {
+    this.setState({
+      search: '',
+    });
+  };
+
+  handleSearch = (e) => {
+    this.setState({
+      [e.target.name]: e.target.value,
+    });
+  };
+
   render() {
     const { index } = this.props;
+    const { search } = this.state;
+
+    const searchStyle = search ? 'searchClear' : '';
 
     const renderPlItem = (item, i) => {
       const className = i === index ? 'activeTrack' : '';
@@ -49,10 +79,23 @@ export default class List extends PureComponent {
 
     return (
       <div className="listContainer">
-        <ul className="plList">{this.props.list.map(renderPlItem)}</ul>
-        <div className="footer">
-          <small>RRPlayer ♪ AK ♪ 2018</small>
+        <div className="searchBox">
+          <input
+            type="text"
+            name="search"
+            className="searchText"
+            placeholder="Search"
+            value={search}
+            onChange={this.handleSearch}
+          />
+          <input
+            type="button"
+            name="searchButton"
+            className={`searchButton ${searchStyle}`}
+            onClick={this.clearSearch}
+          />
         </div>
+        <ul className="plList">{this.getListBySearch().map(renderPlItem)}</ul>
       </div>
     );
   }

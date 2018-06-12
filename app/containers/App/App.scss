@@ -4,14 +4,11 @@ $background_color: darken($blue, 10);
 body {
   align-items: center;
   background: $background_color;
-  display: flex;
   font-family: 'Roboto', sans-serif;
   color: white;
-  height: 100%;
-  justify-content: center;
 }
 
 .appContainer {
   background-color: $background_color;
-  height: 100%;
+  height: 100vh;
 }

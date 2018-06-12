@@ -57,10 +57,6 @@ $white: #fff;
     border-bottom-right-radius: 5px;
     cursor: pointer;
 
-    &:hover {
-      // outline: $playerSecondary;
-    }
-
     .scrubber-progress {
       @include generate-gradient($playerSecondary);
       height: 100%;
